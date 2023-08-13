@@ -4,8 +4,10 @@ namespace App\Entity;
 
 use App\Repository\RestaurantRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\{ArrayCollection, Collection};
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
 #[ORM\Entity(repositoryClass: RestaurantRepository::class)]
 class Restaurant
@@ -16,10 +18,10 @@ class Restaurant
     private ?int $id = null;
 
     #[ORM\Column(length: 32)]
-    private string $name;
+    private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private string $description;
+    private ?string $description = null;
 
     #[ORM\Column]
     private array $amOpeningTime = [];
@@ -31,17 +33,25 @@ class Restaurant
     private int $maxGuest = 0;
 
     #[ORM\Column]
-    private DateTimeImmutable $createdAt;
+    private ?DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
     private ?DateTimeImmutable $updatedAt = null;
 
-    public function getId(): int
+    #[ORM\OneToMany(mappedBy: 'restaurant', targetEntity: Picture::class, orphanRemoval: true)]
+    private Collection $pictures;
+
+    public function __construct()
+    {
+        $this->pictures = new ArrayCollection();
+    }
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -53,7 +63,7 @@ class Restaurant
         return $this;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -101,7 +111,7 @@ class Restaurant
         return $this;
     }
 
-    public function getCreatedAt(): DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -121,6 +131,31 @@ class Restaurant
     public function setUpdatedAt(?DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /** @return Collection<int, Picture> */
+    public function getPictures(): Collection
+    {
+        return $this->pictures;
+    }
+
+    public function addPicture(Picture $picture): static
+    {
+        if (!$this->pictures->contains($picture)) {
+            $this->pictures->add($picture);
+            $picture->setRestaurant($this);
+        }
+
+        return $this;
+    }
+
+    public function removePicture(Picture $picture): static
+    {
+        if ($this->pictures->removeElement($picture) && $picture->getRestaurant() === $this) {
+            $picture->setRestaurant(null);
+        }
 
         return $this;
     }
