@@ -1,4 +1,16 @@
 {
+    "doctrine/annotations": {
+        "version": "2.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "a2759dd6123694c8d901d0ec80006e044c2e6457"
+        },
+        "files": [
+            "config/routes/annotations.yaml"
+        ]
+    },
     "doctrine/doctrine-bundle": {
         "version": "2.10",
         "recipe": {
@@ -24,6 +36,19 @@
         "files": [
             "config/packages/doctrine_migrations.yaml",
             "migrations/.gitignore"
+        ]
+    },
+    "nelmio/api-doc-bundle": {
+        "version": "4.12",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "3.0",
+            "ref": "c8e0c38e1a280ab9e37587a8fa32b251d5bc1c94"
+        },
+        "files": [
+            "config/packages/nelmio_api_doc.yaml",
+            "config/routes/nelmio_api_doc.yaml"
         ]
     },
     "symfony/console": {
@@ -102,5 +127,21 @@
         "files": [
             "config/packages/security.yaml"
         ]
+    },
+    "symfony/twig-bundle": {
+        "version": "5.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.4",
+            "ref": "bb2178c57eee79e6be0b297aa96fc0c0def81387"
+        },
+        "files": [
+            "config/packages/twig.yaml",
+            "templates/base.html.twig"
+        ]
+    },
+    "twig/extra-bundle": {
+        "version": "v3.7.1"
     }
 }
