@@ -33,6 +33,7 @@ security:
     access_control:
          - { path: ^/api/registration, roles: PUBLIC_ACCESS }
          - { path: ^/api/login, roles: PUBLIC_ACCESS }
+         - { path: ^/api/doc, roles: PUBLIC_ACCESS }
          - { path: ^/api, roles: ROLE_USER }
 
 when@test:
