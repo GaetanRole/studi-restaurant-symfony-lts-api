@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Picture
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\GeneratedValue(strategy: "IDENTITY")]
+    #[ORM\Column(type: "integer")]
     private ?int $id = null;
 
     #[ORM\Column(length: 128)]
