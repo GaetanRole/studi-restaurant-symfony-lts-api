@@ -1,0 +1,39 @@
+name: app
+
+type: php:8.2
+
+runtime:
+    extensions:
+
+build:
+    flavor: none
+
+disk: 512
+
+web:
+    locations:
+        "/":
+            root: "public"
+            expires: 1h
+            passthru: "/index.php"
+
+mounts:
+    "/var": { source: local, source_path: var }
+
+relationships:
+    database: 'database:mysql'
+
+hooks:
+    build: |
+        set -x -e
+
+        curl -fs https://get.symfony.com/cloud/configurator | bash
+        # php-ext-install ctype X.Y.Z
+        # php-ext-install iconv X.Y.Z
+
+        NODE_VERSION=18 symfony-build
+
+    deploy: |
+        set -x -e
+
+        symfony-deploy
