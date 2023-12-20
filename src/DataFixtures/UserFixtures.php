@@ -4,14 +4,16 @@ namespace App\DataFixtures;
 
 use App\Entity\User;
 use DateTimeImmutable;
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\{Fixture, FixtureGroupInterface};
 use Doctrine\Persistence\ObjectManager;
 use Exception;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Faker;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserFixtures extends Fixture
+class UserFixtures extends Fixture implements FixtureGroupInterface
 {
+    public const USER_NB_TUPLES = 20;
+
     public function __construct(private UserPasswordHasherInterface $passwordHasher)
     {
     }
@@ -21,7 +23,7 @@ class UserFixtures extends Fixture
     {
         $faker = Faker\Factory::create();
 
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1; $i <= self::USER_NB_TUPLES; $i++) {
             $user = (new User())
                 ->setFirstName($faker->firstName())
                 ->setLastName($faker->lastName())
@@ -35,5 +37,10 @@ class UserFixtures extends Fixture
         }
 
         $manager->flush();
+    }
+
+    public static function getGroups(): array
+    {
+        return ['independent'];
     }
 }
