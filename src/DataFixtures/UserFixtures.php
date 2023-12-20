@@ -8,6 +8,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Faker;
 
 class UserFixtures extends Fixture
 {
@@ -18,10 +19,12 @@ class UserFixtures extends Fixture
     /** @throws Exception */
     public function load(ObjectManager $manager): void
     {
+        $faker = Faker\Factory::create();
+
         for ($i = 1; $i <= 20; $i++) {
             $user = (new User())
-                ->setFirstName("Firstname $i")
-                ->setLastName("Lastname $i")
+                ->setFirstName($faker->firstName())
+                ->setLastName($faker->lastName())
                 ->setGuestNumber(random_int(0,5))
                 ->setEmail("email.$i@studi.fr")
                 ->setCreatedAt(new DateTimeImmutable());
